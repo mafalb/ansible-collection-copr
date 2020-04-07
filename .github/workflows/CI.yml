@@ -1,0 +1,80 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '40 12 * * 6'
+
+jobs:
+  mariadb-server:
+
+    runs-on: ubuntu-18.04
+
+    strategy:
+
+      fail-fast: false
+
+      matrix:
+
+        target:
+        - centos6
+        - centos7
+        - centos8
+        - fedora30
+        - fedora31
+        - fedora32
+
+        include:
+
+        - target: centos6
+          image: centos
+          tag: 6
+
+        - target: centos7
+          image: centos
+          tag: 7
+
+        - target: centos8
+          image: centos
+          tag: 8
+
+        - target: fedora30
+          image: fedora
+          tag: 30
+
+        - target: fedora31
+          image: fedora
+          tag: 31
+
+        - target: fedora32
+          image: fedora
+          tag: 32
+
+    env:
+      CI_CONTAINER_IMAGE: ${{ matrix.image }}
+      CI_CONTAINER_TAG: ${{ matrix.tag }}
+      CI_CONTAINER_PRIVILEGED: true
+
+    steps:
+
+      - name: checkout collection
+        uses: actions/checkout@v1
+        with:
+          path: ansible_collections/mafalb/copr
+
+      - name: install dependencies
+        run: ansible-galaxy collection install -r molecule/requirements.yml
+
+      - name: install molecule
+        run: ansible-playbook -D molecule/install_molecule.yml
+
+      - name: run molecule tests
+        run: |
+          source ~/.virtualenvs/molecule/bin/activate
+          PY_COLORS=1 CI_CONTAINER_PRIVILEGED=true CI_CONTAINER_IMAGE=$CI_CONTAINER_IMAGE CI_CONTAINER_TAG=$CI_CONTAINER_TAG molecule test
+
+...

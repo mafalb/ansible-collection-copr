@@ -1,0 +1,19 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: Verify
+  hosts: all
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+
+  tasks:
+  - debug: var=ansible_pkg_mgr
+
+  - name: enable
+    command: "{{ ansible_pkg_mgr }} -y  copr enable copart/restic"
+    args:
+      warn: false
+
+...
