@@ -11,7 +11,7 @@
   tasks:
   - debug: var=ansible_pkg_mgr
 
-  - name: enable
+  - name: enable # noqa 301
     command: "{{ ansible_pkg_mgr }} -y  copr enable copart/restic"
     args:
       warn: false
