@@ -1,0 +1,29 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+galaxy_info:
+  author: Markus Falb
+  description: Ansible role for the copr yum/dnf plugin
+  license: GPLv3
+  min_ansible_version: 2.9
+
+  # https://galaxy.ansible.com/api/v1/platforms/
+  #
+  platforms:
+  - name: EL
+    versions:
+    - 7
+    - 8
+    name: Fedora
+    versions:
+    - 30
+    - 31
+
+  galaxy_tags:
+  - copr
+  - yum
+  - dnf
+
+dependencies: []
+
+...
