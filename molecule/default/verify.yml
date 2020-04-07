@@ -11,9 +11,10 @@
   tasks:
   - debug: var=ansible_pkg_mgr
 
-  - name: enable # noqa 301
-    command: "{{ ansible_pkg_mgr }} -y  copr enable copart/restic"
+  - name: verify that copr plugin is installed
+    command: "{{ ansible_pkg_mgr }} copr list mafalb"
     args:
       warn: false
+    changed_when: false
 
 ...
