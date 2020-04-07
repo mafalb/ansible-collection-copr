@@ -10,3 +10,7 @@
 ### [mafalb.copr.plugin](roles/plugin/README.md)
 
 Install the copr plugin. See also ![copr plugin intall documentation](https://docs.pagure.org/copr.copr/how_to_enable_repo.html)
+
+## LICENSE
+
+GPL Version 3
