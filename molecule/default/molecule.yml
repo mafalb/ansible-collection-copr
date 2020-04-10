@@ -12,6 +12,7 @@ driver:
 #
 lint: |
   set -e
+  ! grep -r "no_log: false" .
   yamllint .
   #ansible-lint -v
   ansible-lint -v roles/* molecule/default/converge.yml molecule/default/verify.yml molecule/install_molecule.yml molecule/requirements.yml
