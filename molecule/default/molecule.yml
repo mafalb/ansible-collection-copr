@@ -7,10 +7,14 @@ dependency:
 driver:
   name: docker
 
+# https://github.com/ansible/ansible-lint/issues/731
+# revert when fixed
+#
 lint: |
   set -e
   yamllint .
-  ansible-lint -v
+  #ansible-lint -v
+  ansible-lint -v roles/* molecule/default/converge.yml molecule/default/verify.yml molecule/install_molecule.yml molecule/requirements.yml
   flake8 -v
 
 platforms:
