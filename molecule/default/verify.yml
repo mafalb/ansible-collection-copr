@@ -3,6 +3,7 @@
 
 - name: Verify
   hosts: all
+
   environment:
     http_proxy: "{{ lookup('env', 'http_proxy') }}"
     https_proxy: "{{ lookup('env', 'https_proxy') }}"
@@ -12,9 +13,23 @@
   - debug: var=ansible_pkg_mgr
 
   - name: verify that copr plugin is installed
-    command: "{{ ansible_pkg_mgr }} copr list mafalb"
+    shell: |
+      set -o pipefail
+      {{ ansible_pkg_mgr }} copr list | grep copart/restic
     args:
       warn: false
+      executable: /bin/bash
     changed_when: false
+    when: ansible_distribution != 'Fedora'
+
+  - name: verify that eklitzke/watchman is installed
+    shell: |
+      set -o pipefail
+      {{ ansible_pkg_mgr }} copr list | grep eklitzke/watchman
+    args:
+      warn: false
+      executable: /bin/bash
+    changed_when: false
+    when: ansible_distribution == 'Fedora'
 
 ...

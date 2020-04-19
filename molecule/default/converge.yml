@@ -9,8 +9,16 @@
     no_proxy: "{{ lookup('env', 'no_proxy') }}"
   roles:
   - role: mafalb.copr.plugin
+
+  # skip on Fedora, i.e. only on RHEL and clones
+  #
   - role: mafalb.copr.repo
     repo: copart/restic
     when: ansible_distribution != 'Fedora'
+
+  # only on Fedora
+  - role: mafalb.copr.repo
+    repo: eklitzke/watchman
+    when: ansible_distribution == 'Fedora'
 
 ...
