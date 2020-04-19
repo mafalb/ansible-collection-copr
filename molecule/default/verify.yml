@@ -4,16 +4,21 @@
 - name: Verify
   hosts: all
 
+  vars:
+    restic_repo:
+      '6': '_copr_copart-restic.repo'
+      '7': '_copr_copart-restic.repo'
+      default: '_copr:copr.fedorainfracloud.org:copart:restic.repo'
+
   environment:
     http_proxy: "{{ lookup('env', 'http_proxy') }}"
     https_proxy: "{{ lookup('env', 'https_proxy') }}"
     no_proxy: "{{ lookup('env', 'no_proxy') }}"
 
   tasks:
-  - debug: var=ansible_pkg_mgr
 
   - name: verify that copart/restic is installed
-    command: ls -1 /etc/yum.repos.d/_copr_copart-restic.repo
+    command: ls -1 /etc/yum.repos.d/{{ restic_repo[ansible_distribution_major_version]|default(restic_repo['default']) }}
     changed_when: false
     when: ansible_distribution != 'Fedora'
 
