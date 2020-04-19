@@ -12,23 +12,13 @@
   tasks:
   - debug: var=ansible_pkg_mgr
 
-  - name: verify that copr plugin is installed
-    shell: |
-      set -o pipefail
-      {{ ansible_pkg_mgr }} copr list | grep copart/restic
-    args:
-      warn: false
-      executable: /bin/bash
+  - name: verify that copart/restic is installed
+    command: ls -1 /etc/yum.repos.d/_copr_copart-restic.repo
     changed_when: false
     when: ansible_distribution != 'Fedora'
 
   - name: verify that eklitzke/watchman is installed
-    shell: |
-      set -o pipefail
-      {{ ansible_pkg_mgr }} copr list | grep eklitzke/watchman
-    args:
-      warn: false
-      executable: /bin/bash
+    command: ls /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:eklitzke:watchman.repo
     changed_when: false
     when: ansible_distribution == 'Fedora'
 
