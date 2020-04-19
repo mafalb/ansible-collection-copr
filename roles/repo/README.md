@@ -20,9 +20,9 @@ Enable, disable or remove copr repositories
 
 ```state: enabled```
 
-```state: disabled```
+```state: disabled``` not yet implemented
 
-```state: removed```
+```state: removed``` not yet implemented
 
 ## License
 
