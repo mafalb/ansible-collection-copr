@@ -20,7 +20,10 @@
   - name: verify that copart/restic is installed
     command: ls -1 /etc/yum.repos.d/{{ restic_repo[ansible_distribution_major_version]|default(restic_repo['default']) }}
     changed_when: false
-    when: ansible_distribution != 'Fedora'
+    when:
+    - ansible_distribution != 'Fedora'
+    - ansible_distribution_major_version is version('7', '>=')
+
 
   - name: verify that eklitzke/watchman is installed
     command: ls /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:eklitzke:watchman.repo

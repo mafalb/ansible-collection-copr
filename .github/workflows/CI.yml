@@ -21,6 +21,7 @@ jobs:
       matrix:
 
         target:
+        - centos6
         - centos7
         - centos8
         - fedora30
@@ -28,6 +29,10 @@ jobs:
         - fedora32
 
         include:
+
+        - target: centos6
+          image: centos
+          tag: 6
 
         - target: centos7
           image: centos
@@ -70,6 +75,6 @@ jobs:
       - name: run molecule tests
         run: |
           source ~/.virtualenvs/molecule/bin/activate
-          PY_COLORS=1 CI_CONTAINER_PRIVILEGED=$CI_CONTAINER_PRIVILEGED CI_CONTAINER_IMAGE=$CI_CONTAINER_IMAGE CI_CONTAINER_TAG=$CI_CONTAINER_TAG molecule test
+          PY_COLORS=1 CI_CONTAINER_IMAGE=$CI_CONTAINER_IMAGE CI_CONTAINER_TAG=$CI_CONTAINER_TAG molecule test
 
 ...
