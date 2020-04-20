@@ -16,6 +16,12 @@
     - ansible_distribution != 'Fedora'
     - ansible_distribution_major_version is version('7', '>=')
 
+  # install plugin on Fedora
+  #
+  - role: mafalb.copr.plugin
+    when:
+    - ansible_distribution == 'Fedora'
+
   # skip on Fedora, i.e. only on RHEL and clones
   #
   - role: mafalb.copr.repo
