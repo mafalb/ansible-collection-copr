@@ -12,7 +12,7 @@
   # skip on EL 6
   #
   - role: mafalb.copr.plugin
-    when: 
+    when:
     - ansible_distribution != 'Fedora'
     - ansible_distribution_major_version is version('7', '>=')
 
