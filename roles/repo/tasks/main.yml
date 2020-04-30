@@ -1,29 +1,35 @@
 # vim: set ft=yaml ts=2 expandtab:
 ---
 
-- name: assertions
-  assert:
-    that:
-    - ansible_os_family == 'RedHat'
-    - repo is defined
-    - repo.split('/')|length == 2
+- name: only on RHELish systems
+  block:
 
-- name: get OS specific variables
-  with_first_found:
-  - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
-  - "{{ ansible_os_family }}.yml"
-  include_vars:
-    file: "{{ item }}"
+  - name: assertions
+    assert:
+      that:
+      - ansible_os_family == 'RedHat'
+      - repo is defined
+      - repo.split('/')|length == 2
 
-- name: assertions
-  assert:
-    that:
-    - repofile is defined
+  - name: get OS specific variables
+    with_first_found:
+    - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - None.yml
+    include_vars:
+      file: "{{ item }}"
 
-- name: copr repo is enabled
-  command: "{{ ansible_pkg_mgr }} -y copr enable {{ repo }}"
-  args:
-    creates: /etc/yum.repos.d/{{ repofile }}
-    warn: false
+  - name: assertions
+    assert:
+      that:
+      - repofile is defined
+
+  - name: copr repo is enabled
+    command: "{{ ansible_pkg_mgr }} -y copr enable {{ repo }}"
+    args:
+      creates: /etc/yum.repos.d/{{ repofile }}
+      warn: false
+
+  when: ansible_os_family == 'RedHat'
 
 ...

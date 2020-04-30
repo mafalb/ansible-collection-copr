@@ -27,6 +27,9 @@ jobs:
         - fedora30
         - fedora31
         - fedora32
+        - ubuntu16
+        - ubuntu18
+        - ubuntu20
 
         include:
 
@@ -53,6 +56,18 @@ jobs:
         - target: fedora32
           image: fedora
           tag: 32
+
+        - target: ubuntu16
+          image: ubuntu
+          tag: xenial
+
+        - target: ubuntu18
+          image: ubuntu
+          tag: bionic
+
+        - target: ubuntu20
+          image: ubuntu
+          tag: bionic
 
     env:
       CI_CONTAINER_IMAGE: ${{ matrix.image }}
