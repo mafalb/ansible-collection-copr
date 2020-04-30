@@ -67,7 +67,7 @@ jobs:
 
         - target: ubuntu20
           image: ubuntu
-          tag: bionic
+          tag: focal
 
     env:
       CI_CONTAINER_IMAGE: ${{ matrix.image }}
