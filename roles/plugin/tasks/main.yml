@@ -1,6 +1,13 @@
 # vim: set ft=yaml ts=2 expandtab:
 ---
 
+# copr on non RHELish systems does not make sense
+#
+- name: assert that we are on a RHELish system
+  assert:
+    that:
+    - ansible_os_family == 'RedHat'
+
 - name: include OS specific variables
   with_first_found:
   - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
