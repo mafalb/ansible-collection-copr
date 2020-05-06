@@ -27,11 +27,7 @@ jobs:
         - fedora30
         - fedora31
         - fedora32
-        - ubuntu16
-        - ubuntu18
-        - ubuntu20
-        - debian9
-        - debian10
+        - debianish
 
         include:
 
@@ -59,25 +55,9 @@ jobs:
           image: fedora
           tag: 32
 
-        - target: ubuntu16
-          image: ubuntu
-          tag: xenial
-
-        - target: ubuntu18
-          image: ubuntu
-          tag: bionic
-
-        - target: ubuntu20
+        - target: debianish
           image: ubuntu
           tag: focal
-
-        - target: debian9
-          image: debian
-          tag: stretch
-
-        - target: debian10
-          image: debian
-          tag: buster
 
     env:
       CI_CONTAINER_IMAGE: ${{ matrix.image }}
