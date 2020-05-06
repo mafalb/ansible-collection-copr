@@ -1,6 +1,7 @@
 # Ansible Role - mafalb.copr.repo
 
-Enable, disable or remove copr repositories
+Enable, disable or remove copr repositories.
+It's a noop on non RHELish systems.
 
 ## Basic Usage
 
