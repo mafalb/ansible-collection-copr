@@ -21,7 +21,8 @@
     command: ls -1 /etc/yum.repos.d/{{ restic_repo[ansible_distribution_major_version]|default(restic_repo['default']) }}
     changed_when: false
     when:
-    - ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution != 'Fedora'
     - ansible_distribution_major_version is version('7', '>=')
 
 
