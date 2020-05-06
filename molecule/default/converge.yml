@@ -28,7 +28,7 @@
     repo: copart/restic
     when:
     - ansible_os_family != 'RedHat'
-  
+
 
   # skip on EL 6
   #
