@@ -25,7 +25,7 @@
 - name: copr plugin is installed
   include_role:
     name: mafalb.copr.plugin
-  when: copr_plugin is defined|default(true)
+  when: not copr_repo_uri is defined
 
 # either use the installed copr plugin to download
 # or

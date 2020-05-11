@@ -29,7 +29,7 @@
     - ansible_distribution == 'Fedora'
 
 
-- name: Converge
+- name: Converge EL6
   hosts: EL6,!t_proxy
   environment:
     http_proxy: "{{ lookup('env', 'http_proxy') }}"
@@ -43,7 +43,7 @@
     copr_repo_uri: https://copr.fedorainfracloud.org/coprs/copart/restic/repo/epel-6/copart-restic-epel-6.repo
 
 
-- name: Converge
+- name: Converge EL
   hosts: EL,!EL6,!t_proxy
   environment:
     http_proxy: "{{ lookup('env', 'http_proxy') }}"
