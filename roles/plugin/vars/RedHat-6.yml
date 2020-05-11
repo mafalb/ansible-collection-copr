@@ -1,7 +1,1 @@
-# vim: set ft=yaml ts=2 expandtab:
----
-
-copr_plugin:
-- yum-plugin-copr
-
-...
+noplugin.yml

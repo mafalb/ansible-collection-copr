@@ -2,7 +2,7 @@
 ---
 
 - name: Verify
-  hosts: all
+  hosts: all,!t_proxy
 
   vars:
     restic_repo:
@@ -23,8 +23,6 @@
     when:
     - ansible_os_family == 'RedHat'
     - ansible_distribution != 'Fedora'
-    - ansible_distribution_major_version is version('7', '>=')
-
 
   - name: verify that eklitzke/watchman is installed
     command: ls /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:eklitzke:watchman.repo
