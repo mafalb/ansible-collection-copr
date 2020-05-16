@@ -27,7 +27,6 @@ jobs:
         - fedora30
         - fedora31
         - fedora32
-        - debianish
 
         include:
 
@@ -54,10 +53,6 @@ jobs:
         - target: fedora32
           image: fedora
           tag: 32
-
-        - target: debianish
-          image: ubuntu
-          tag: focal
 
     env:
       CI_CONTAINER_IMAGE: ${{ matrix.image }}

@@ -4,7 +4,9 @@
 - name: assertions
   assert:
     that:
+    - repo is defined
     - (repo|mandatory).split('/')|length == 2
+    - ansible_pkg_mgr == 'yum' or ansible_pkg_mgr == 'dnf'
 
 - name: copr_repo_uri is defined
   assert:
@@ -25,7 +27,7 @@
 - name: copr plugin is installed
   include_role:
     name: mafalb.copr.plugin
-  when: not copr_repo_uri is defined
+  when: copr_repo_uri is not defined
 
 # either use the installed copr plugin to download
 # or
@@ -35,14 +37,14 @@
 #
 - block:
 
-  - name: copr repo is enabled
+  - name: copr repo is enabled (with copr plugin)
     command: "{{ ansible_pkg_mgr }} -y copr enable {{ repo|mandatory }}"
     args:
       creates: /etc/yum.repos.d/{{ repofile }}
       warn: false
-    when: not copr_repo_uri is defined
+    when: copr_repo_uri is not defined
 
-  - name: copr repo is enabled
+  - name: copr repo is enabled (direct download)
     get_url:
       url: "{{ copr_repo_uri }}"
       dest: /etc/yum.repos.d/{{ repofile }}

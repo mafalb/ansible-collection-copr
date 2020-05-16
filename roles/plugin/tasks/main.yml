@@ -1,6 +1,11 @@
 # vim: set ft=yaml ts=2 expandtab:
 ---
 
+- name: Assert rpm
+  assert:
+    that:
+    - ansible_pkg_mgr == 'yum' or ansible_pkg_mgr == 'dnf'
+
 - name: include OS specific variables
   with_first_found:
   - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"

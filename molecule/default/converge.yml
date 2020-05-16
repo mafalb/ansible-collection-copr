@@ -70,4 +70,17 @@
   - role: mafalb.copr.repo
     repo: eklitzke/watchman
 
+
+- name: Converge
+  hosts: all,!EL,!Fedora,!t_proxy
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+
+  roles:
+
+  - role: mafalb.copr.repo
+    repo: bla/blubb
+
 ...
