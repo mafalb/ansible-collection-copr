@@ -1,6 +1,6 @@
 # vim: set ft=yaml ts=2 expandtab:
 ---
 
-repofile: "_copr:copr.fedorainfracloud.org:{{ repo.split('/')[0] }}:{{ repo.split('/')[1] }}.repo"
+repofile: "_copr:copr.fedorainfracloud.org:{{ copr_owner }}:{{ copr_name }}.repo"
 
 ...

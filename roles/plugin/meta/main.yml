@@ -18,6 +18,7 @@ galaxy_info:
     versions:
     - 30
     - 31
+    - 32
 
   galaxy_tags:
   - copr

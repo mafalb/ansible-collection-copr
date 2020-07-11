@@ -4,26 +4,50 @@
 - name: assertions
   assert:
     that:
-    - ansible_os_family == 'RedHat'
     - repo is defined
-    - repo.split('/')|length == 2
+    - (repo|mandatory).split('/')|length == 2
+    - ansible_pkg_mgr == 'yum' or ansible_pkg_mgr == 'dnf'
+
+- name: copr_repo_uri is defined
+  assert:
+    that:
+    - copr_repo_uri is defined
+  when:
+  - ansible_os_family == 'RedHat'
+  - ansible_distribution_major_version is version('6', '<=')
 
 - name: get OS specific variables
   with_first_found:
   - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
   - "{{ ansible_os_family }}.yml"
+  - noplugin.yml
   include_vars:
     file: "{{ item }}"
 
-- name: assertions
-  assert:
-    that:
-    - repofile is defined
+- name: copr plugin is installed
+  include_role:
+    name: mafalb.copr.plugin
+  when: copr_repo_uri is not defined
 
-- name: copr repo is enabled
-  command: "{{ ansible_pkg_mgr }} -y copr enable {{ repo }}"
-  args:
-    creates: /etc/yum.repos.d/{{ repofile }}
-    warn: false
+# either use the installed copr plugin to download
+# or
+# download it directly
+#
+# TODO: should be a custom module
+#
+- block:
+
+  - name: copr repo is enabled (with copr plugin)
+    command: "{{ ansible_pkg_mgr }} -y copr enable {{ repo|mandatory }}"
+    args:
+      creates: /etc/yum.repos.d/{{ repofile }}
+      warn: false
+    when: copr_repo_uri is not defined
+
+  - name: copr repo is enabled (direct download)
+    get_url:
+      url: "{{ copr_repo_uri }}"
+      dest: /etc/yum.repos.d/{{ repofile }}
+    when: copr_repo_uri is defined
 
 ...
