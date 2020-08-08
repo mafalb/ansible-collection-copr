@@ -24,7 +24,6 @@ jobs:
         - centos6
         - centos7
         - centos8
-        - fedora30
         - fedora31
         - fedora32
 
@@ -41,10 +40,6 @@ jobs:
         - target: centos8
           image: centos
           tag: 8
-
-        - target: fedora30
-          image: fedora
-          tag: 30
 
         - target: fedora31
           image: fedora
