@@ -19,6 +19,9 @@
     when:
     - ansible_os_family == 'RedHat'
     - ansible_distribution != 'Fedora'
+    # make molecules idempotence happy
+    #
+    changed_when: false
 
   - name: group by Fedora and clones
     group_by:
@@ -27,6 +30,9 @@
       - Fedora
     when:
     - ansible_distribution == 'Fedora'
+    # make molecules idempotence happy
+    #
+    changed_when: false
 
 
 - name: Converge EL6

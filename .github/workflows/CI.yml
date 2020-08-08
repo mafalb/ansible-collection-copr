@@ -12,7 +12,7 @@ on:
 jobs:
   CI:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     strategy:
 
@@ -24,7 +24,6 @@ jobs:
         - centos6
         - centos7
         - centos8
-        - fedora30
         - fedora31
         - fedora32
 
@@ -41,10 +40,6 @@ jobs:
         - target: centos8
           image: centos
           tag: 8
-
-        - target: fedora30
-          image: fedora
-          tag: 30
 
         - target: fedora31
           image: fedora
@@ -70,7 +65,7 @@ jobs:
         run: ansible-galaxy collection install -r molecule/requirements.yml
 
       - name: install molecule
-        run: ansible-playbook -D molecule/install_molecule.yml
+        run: ansible-playbook -D molecule/install_molecule.yml -e molecule_ansible_version="2.9.10"
 
       - name: run molecule tests
         run: |
