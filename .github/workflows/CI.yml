@@ -65,7 +65,7 @@ jobs:
         run: ansible-galaxy collection install -r molecule/requirements.yml
 
       - name: install molecule
-        run: ansible-playbook -D molecule/install_molecule.yml -e molecule_ansible_version="2.9.10"
+        run: ansible-playbook -D molecule/install_molecule.yml
 
       - name: run molecule tests
         run: |
