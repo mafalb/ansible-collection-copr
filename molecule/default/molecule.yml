@@ -16,7 +16,7 @@ lint: |
   ! grep -r "no_log: false" .
   yamllint .
   ansible-lint -v
-  ansible-lint -v -x 208 roles/*/vars/*.yml
+  ansible-lint -v roles/*/vars/*.yml
   flake8 -v
 
 platforms:

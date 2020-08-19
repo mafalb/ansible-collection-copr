@@ -64,6 +64,9 @@ jobs:
       - name: install dependencies
         run: ansible-galaxy collection install -r molecule/requirements.yml
 
+      # because of bug mafalb-4480
+      # force ansible version 2.9.10
+      #
       - name: install molecule
         run: ansible-playbook -D molecule/install_molecule.yml
 
