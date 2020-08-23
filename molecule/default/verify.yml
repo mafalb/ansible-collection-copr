@@ -10,11 +10,6 @@
       '7': '_copr_copart-restic.repo'
       default: '_copr:copr.fedorainfracloud.org:copart:restic.repo'
 
-  environment:
-    http_proxy: "{{ lookup('env', 'http_proxy') }}"
-    https_proxy: "{{ lookup('env', 'https_proxy') }}"
-    no_proxy: "{{ lookup('env', 'no_proxy') }}"
-
   tasks:
 
   - name: verify that copart/restic repo is installed

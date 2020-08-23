@@ -39,10 +39,10 @@
 
 - name: Converge EL6
   hosts: t_centos6,EL6,!t_proxy
+
   environment:
-    http_proxy: "{{ lookup('env', 'http_proxy') }}"
-    https_proxy: "{{ lookup('env', 'https_proxy') }}"
-    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+    http_proxy: http://t_proxy:3128
+    https_proxy: http://t_proxy:3128
 
   roles:
 
@@ -53,10 +53,10 @@
 
 - name: Converge EL
   hosts: t_centos7,t_centos8,EL,!EL6,!t_proxy
+
   environment:
-    http_proxy: "{{ lookup('env', 'http_proxy') }}"
-    https_proxy: "{{ lookup('env', 'https_proxy') }}"
-    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+    http_proxy: http://t_proxy:3128
+    https_proxy: http://t_proxy:3128
 
   roles:
 
@@ -68,10 +68,10 @@
 #
 - name: Converge
   hosts: t_fedora31,t_fedora32,Fedora,!t_proxy
+
   environment:
-    http_proxy: "{{ lookup('env', 'http_proxy') }}"
-    https_proxy: "{{ lookup('env', 'https_proxy') }}"
-    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+    http_proxy: http://t_proxy:3128
+    https_proxy: http://t_proxy:3128
 
   roles:
 
