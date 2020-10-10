@@ -73,6 +73,9 @@ jobs:
       - name: install dependencies
         run: ansible-galaxy collection install -r molecule/requirements.yml
 
+      - name: update apt cache
+        run: sudo apt-get update
+
       - name: install molecule
         run: ansible-playbook -D molecule/install_molecule.yml -e molecule_ansible_version=$ANSIBLE_VERSION
 
