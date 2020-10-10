@@ -13,3 +13,4 @@
 - actually use proxy
 - use actions/checkout@v2
 - use default working-dir for run steps
+- test against ansible 2.9 and 2.10
