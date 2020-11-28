@@ -54,10 +54,6 @@ jobs:
           image: fedora
           tag: 32
 
-        - target: fedora33
-          image: fedora
-          tag: 33
-
     env:
       CI_CONTAINER_IMAGE: ${{ matrix.image }}
       CI_CONTAINER_TAG: ${{ matrix.tag }}
