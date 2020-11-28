@@ -4,8 +4,13 @@
 name: CI
 
 on:
+
   push:
-  pull_request:
+    branches:
+    - '**'
+    tags-ignore:
+    - '*'
+
   schedule:
     - cron: '40 12 * * 6'
 
@@ -24,8 +29,8 @@ jobs:
         - centos6
         - centos7
         - centos8
-        - fedora31
         - fedora32
+        - fedora33
 
         ansible_version:
         - '2.10'
@@ -45,19 +50,21 @@ jobs:
           image: centos
           tag: 8
 
-        - target: fedora31
-          image: fedora
-          tag: 31
-
         - target: fedora32
           image: fedora
           tag: 32
+
+        - target: fedora33
+          image: fedora
+          tag: 33
 
     env:
       CI_CONTAINER_IMAGE: ${{ matrix.image }}
       CI_CONTAINER_TAG: ${{ matrix.tag }}
       CI_CONTAINER_PRIVILEGED: true
       ANSIBLE_VERSION: ${{ matrix.ansible_version }}
+      PY_COLORS: 1
+      ANSIBLE_FORCE_COLOR: 1
 
     defaults:
       run:
@@ -73,15 +80,12 @@ jobs:
       - name: install dependencies
         run: ansible-galaxy collection install -r molecule/requirements.yml
 
-      - name: update apt cache
-        run: sudo apt-get update
-
       - name: install molecule
         run: ansible-playbook -D molecule/install_molecule.yml -e molecule_ansible_version=$ANSIBLE_VERSION -t all,debug
 
       - name: run molecule tests
         run: |
           source ~/.virtualenvs/molecule/bin/activate
-          PY_COLORS=1 CI_CONTAINER_IMAGE=$CI_CONTAINER_IMAGE CI_CONTAINER_TAG=$CI_CONTAINER_TAG molecule test
+          molecule test
 
 ...
