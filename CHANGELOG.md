@@ -2,9 +2,9 @@
 
 ## 0.1.1 XXXX-XX-XX
 
-### Added
+### Changes
 
-- Changelog
+- Added Changelog
 
 ### Changes in CI
 
@@ -14,3 +14,4 @@
 - use actions/checkout@v2
 - use default working-dir for run steps
 - test against ansible 2.9 and 2.10
+- do not specify ANSIBLE_COLLECTIONS_PATH

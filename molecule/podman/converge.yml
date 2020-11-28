@@ -1,0 +1,86 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: Converge proxy
+  hosts: t_proxy
+  roles:
+  - role: mafalb.squid.server
+
+- name: Converge
+  hosts: all,!t_proxy
+
+  tasks:
+
+  - name: group by EL and clones
+    group_by:
+      key: EL{{ ansible_distribution_major_version }}
+      parents:
+      - EL
+    when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution != 'Fedora'
+
+  - name: group by Fedora and clones
+    group_by:
+      key: Fedora{{ ansible_distribution_major_version }}
+      parents:
+      - Fedora
+    when:
+    - ansible_distribution == 'Fedora'
+
+
+- name: Converge EL6
+  hosts: EL6,!t_proxy
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+
+  roles:
+
+  - role: mafalb.copr.repo
+    repo: copart/restic
+    copr_repo_uri: https://copr.fedorainfracloud.org/coprs/copart/restic/repo/epel-6/copart-restic-epel-6.repo
+
+
+- name: Converge EL
+  hosts: EL,!EL6,!t_proxy
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+
+  roles:
+
+  - role: mafalb.copr.repo
+    repo: copart/restic
+
+
+# There is no copart/restic for Fedora, so I install another repo
+#
+- name: Converge
+  hosts: Fedora,!t_proxy
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+
+  roles:
+
+  - role: mafalb.copr.repo
+    repo: eklitzke/watchman
+
+
+- name: Converge
+  hosts: all,!EL,!Fedora,!t_proxy
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+
+  roles:
+
+  - role: mafalb.copr.repo
+    repo: bla/blubb
+
+...
