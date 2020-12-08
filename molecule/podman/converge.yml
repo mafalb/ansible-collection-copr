@@ -17,12 +17,8 @@
       parents:
       - EL
     when:
-    - false
     - ansible_os_family == 'RedHat'
     - ansible_distribution != 'Fedora'
-    # make molecules idempotence happy
-    #
-    changed_when: false
 
   - name: group by Fedora and clones
     group_by:
@@ -30,19 +26,15 @@
       parents:
       - Fedora
     when:
-    - false
     - ansible_distribution == 'Fedora'
-    # make molecules idempotence happy
-    #
-    changed_when: false
 
 
 - name: Converge EL6
-  hosts: t_centos6,EL6,!t_proxy
-
+  hosts: EL6,!t_proxy
   environment:
-    http_proxy: http://t_proxy:3128
-    https_proxy: http://t_proxy:3128
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
 
   roles:
 
@@ -52,11 +44,11 @@
 
 
 - name: Converge EL
-  hosts: t_centos7,t_centos8,EL,!EL6,!t_proxy
-
+  hosts: EL,!EL6,!t_proxy
   environment:
-    http_proxy: http://t_proxy:3128
-    https_proxy: http://t_proxy:3128
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
 
   roles:
 
@@ -67,15 +59,28 @@
 # There is no copart/restic for Fedora, so I install another repo
 #
 - name: Converge
-  hosts: t_fedora31,t_fedora32,t_fedora33,Fedora,!t_proxy
-
+  hosts: Fedora,!t_proxy
   environment:
-    http_proxy: http://t_proxy:3128
-    https_proxy: http://t_proxy:3128
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
 
   roles:
 
   - role: mafalb.copr.repo
     repo: eklitzke/watchman
+
+
+- name: Converge
+  hosts: all,!EL,!Fedora,!t_proxy
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
+
+  roles:
+
+  - role: mafalb.copr.repo
+    repo: bla/blubb
 
 ...
