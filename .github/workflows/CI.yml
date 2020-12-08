@@ -26,21 +26,15 @@ jobs:
       matrix:
 
         target:
-        - centos6
         - centos7
         - centos8
         - fedora32
-        - fedora33
 
         ansible_version:
         - '2.10'
         - '2.9'
 
         include:
-
-        - target: centos6
-          image: centos
-          tag: 6
 
         - target: centos7
           image: centos
@@ -78,6 +72,11 @@ jobs:
 
       - name: install molecule
         run: ansible-playbook -D molecule/install_molecule.yml -e molecule_ansible_version=$ANSIBLE_VERSION -t all,debug
+
+      - name: check ansible version
+        run: |
+          source ~/.virtualenvs/molecule/bin/activate
+          ansible --version | grep "^ansible ${{ matrix.ansible_version }}"
 
       - name: run molecule tests
         run: |

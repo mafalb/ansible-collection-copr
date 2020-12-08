@@ -67,7 +67,7 @@
 # There is no copart/restic for Fedora, so I install another repo
 #
 - name: Converge
-  hosts: t_fedora31,t_fedora32,Fedora,!t_proxy
+  hosts: t_fedora31,t_fedora32,t_fedora33,Fedora,!t_proxy
 
   environment:
     http_proxy: http://t_proxy:3128

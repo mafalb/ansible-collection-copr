@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1 XXXX-XX-XX
+## 0.1.1 2020-12-08
 
 ### Changes
 
@@ -8,6 +8,7 @@
 
 ### Changes in CI
 
+- no CI on CentOS 6
 - fix internal network definition in molecule
 - do not force molecule 3.0.4 anymore
 - actually use proxy
