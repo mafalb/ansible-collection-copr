@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 2021-XX-XX
+## 0.2.0 2021-07-13
 
 - support for Rocky / ansible_os_family bug
 

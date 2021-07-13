@@ -17,7 +17,6 @@
       parents:
       - EL
     when:
-    - false
     - ansible_os_family in ['RedHat','Rocky']
     - ansible_distribution != 'Fedora'
     # make molecules idempotence happy
@@ -30,7 +29,6 @@
       parents:
       - Fedora
     when:
-    - false
     - ansible_distribution == 'Fedora'
     # make molecules idempotence happy
     #
