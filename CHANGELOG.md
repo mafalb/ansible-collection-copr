@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 2021-XX-XX
+
+- support for Rocky / ansible_os_family bug
+
 ## 0.1.1 2020-12-08
 
 ### Changes
