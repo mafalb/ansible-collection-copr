@@ -2,7 +2,7 @@
 ---
 
 - name: Verify
-  hosts: all,!t_proxy
+  hosts: all,!ci-proxy
 
   vars:
     restic_repo:
@@ -16,7 +16,7 @@
     command: ls -1 /etc/yum.repos.d/{{ restic_repo[ansible_distribution_major_version]|default(restic_repo['default']) }}
     changed_when: false
     when:
-    - ansible_os_family == 'RedHat'
+    - ansible_os_family in ['RedHat', 'Rocky']
     - ansible_distribution != 'Fedora'
 
   - name: verify that eklitzke/watchman is installed

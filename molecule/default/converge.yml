@@ -2,12 +2,12 @@
 ---
 
 - name: Converge proxy
-  hosts: t_proxy
+  hosts: ci-proxy
   roles:
   - role: mafalb.squid.server
 
 - name: Converge
-  hosts: all,!t_proxy
+  hosts: all,!ci-proxy
 
   tasks:
 
@@ -18,7 +18,7 @@
       - EL
     when:
     - false
-    - ansible_os_family == 'RedHat'
+    - ansible_os_family in ['RedHat','Rocky']
     - ansible_distribution != 'Fedora'
     # make molecules idempotence happy
     #
@@ -38,11 +38,11 @@
 
 
 - name: Converge EL6
-  hosts: t_centos6,EL6,!t_proxy
+  hosts: ci-centos6,EL6,!ci-proxy
 
   environment:
-    http_proxy: http://t_proxy:3128
-    https_proxy: http://t_proxy:3128
+    http_proxy: http://ci-proxy:3128
+    https_proxy: http://ci-proxy:3128
 
   roles:
 
@@ -52,11 +52,11 @@
 
 
 - name: Converge EL
-  hosts: t_centos7,t_centos8,EL,!EL6,!t_proxy
+  hosts: ci-centos7,ci-centos8,EL,!EL6,!ci-proxy
 
   environment:
-    http_proxy: http://t_proxy:3128
-    https_proxy: http://t_proxy:3128
+    http_proxy: http://ci-proxy:3128
+    https_proxy: http://ci-proxy:3128
 
   roles:
 
@@ -67,11 +67,11 @@
 # There is no copart/restic for Fedora, so I install another repo
 #
 - name: Converge
-  hosts: t_fedora31,t_fedora32,t_fedora33,Fedora,!t_proxy
+  hosts: ci-fedora31,ci-fedora32,ci-fedora33,Fedora,!ci-proxy
 
   environment:
-    http_proxy: http://t_proxy:3128
-    https_proxy: http://t_proxy:3128
+    http_proxy: http://ci-proxy:3128
+    https_proxy: http://ci-proxy:3128
 
   roles:
 
