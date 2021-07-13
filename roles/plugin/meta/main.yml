@@ -16,8 +16,8 @@ galaxy_info:
     - 8
   - name: Fedora
     versions:
-    - 31
-    - 32
+    - 33
+    - 34
 
   galaxy_tags:
   - copr
