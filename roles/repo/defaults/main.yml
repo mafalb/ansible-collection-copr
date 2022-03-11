@@ -1,6 +1,6 @@
 # vim: set ft=yaml ts=2 expandtab:
 ---
 
-state: enabled
+copr_repo_state: enabled
 
 ...

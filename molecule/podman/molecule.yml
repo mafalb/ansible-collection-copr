@@ -4,7 +4,7 @@
 dependency:
   name: galaxy
   options:
-    role-file: idontexist.yml   # avoid warning while running molecule 
+    role-file: idontexist.yml   # avoid warning while running molecule
     requirements-file: molecule/podman/requirements.yml
 
 driver:

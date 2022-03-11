@@ -1,0 +1,12 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+# note: older RHEL does not have a copr plugin for yum
+# on that machines we did not set the copr_plugin var in the above step
+# see also the vars/ directory
+- name: copr plugin is installed
+  package:
+    name: "{{ copr_plugin }}"
+  when: copr_plugin is defined
+
+...
