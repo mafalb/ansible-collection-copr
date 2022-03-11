@@ -74,12 +74,12 @@ jobs:
       - name: run molecule tests
         run: |
           source ~/.virtualenvs/molecule/bin/activate
-          molecule test -e .env-${{ matrix.target }}.yml --destroy never
+          molecule -e test .env-${{ matrix.target }}.yml --destroy never
 
       - name: run molecule tests
         run: |
           source ~/.virtualenvs/molecule/bin/activate
-          molecule test -e .env-${{ matrix.target }}.yml -s remove
+          molecule -e test .env-${{ matrix.target }}.yml -s remove
 
 
 ...
