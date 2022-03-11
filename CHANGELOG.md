@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 2022-03-11
+
+- state absent for mafalb.copr.plugin and mafalb.copr.repo
+- remove support for CentOS 8
+
 ## 0.2.0 2021-07-13
 
 - support for Rocky / ansible_os_family bug

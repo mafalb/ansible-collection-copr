@@ -3,7 +3,7 @@
 
 name: CI
 
-on:
+on:  # yamllint disable-line rule:truthy
 
   push:
     branches:
@@ -32,41 +32,15 @@ jobs:
         - alma8
         - rocky8
         - centos7
-        - centos8
 
         ansible_version:
         - '2.9'
         - '2.10'
         - '2.11'
 
-        include:
-
-        - target: fedora33
-          image: docker.io/fedora:33
-
-        - target: fedora34
-          image: docker.io/fedora:34
-
-        - target: c8s
-          image: quay.io/centos/centos:stream8
-
-        - target: alma8
-          image: quay.io/almalinux/almalinux:8
-
-        - target: rocky8
-          image: quay.io/rockylinux/rockylinux:8
-
-        - target: centos7
-          image: quay.io/centos/centos:7
-
-        - target: centos8
-          image: quay.io/centos/centos:8
-
     env:
 
       ANSIBLE_VERSION: ${{ matrix.ansible_version }}
-      CI_IMAGE: ${{ matrix.image }}
-      CI_HOSTNAME: ci-${{ matrix.target }}
       PY_COLORS: 1
       ANSIBLE_FORCE_COLOR: 1
 
@@ -100,6 +74,12 @@ jobs:
       - name: run molecule tests
         run: |
           source ~/.virtualenvs/molecule/bin/activate
-          molecule test
+          molecule test -e .env-${{ matrix.target }}.yml --destroy never
+
+      - name: run molecule tests
+        run: |
+          source ~/.virtualenvs/molecule/bin/activate
+          molecule test -e .env-${{ matrix.target }}.yml -s remove
+
 
 ...

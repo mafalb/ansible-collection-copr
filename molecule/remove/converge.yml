@@ -42,7 +42,7 @@
   - role: mafalb.copr.repo
     repo: copart/restic
     copr_repo_uri: https://copr.fedorainfracloud.org/coprs/copart/restic/repo/epel-6/copart-restic-epel-6.repo
-
+    copr_repo_state: absent
 
 - name: Converge EL
   hosts: EL,!EL6
@@ -55,12 +55,15 @@
 
   - role: mafalb.copr.repo
     repo: copart/restic
+    copr_repo_state: absent
+  - role: mafalb.copr.plugin
+    copr_plugin_state: absent
 
 
 # There is no copart/restic for Fedora, so I install another repo
 #
 - name: Converge
-  hosts: Fedora
+  hosts: Fedora,!ci-proxy
 
   environment:
     http_proxy: http://ci-proxy:3128
@@ -70,5 +73,8 @@
 
   - role: mafalb.copr.repo
     repo: eklitzke/watchman
+    copr_repo_state: absent
+  - role: mafalb.copr.plugin
+    copr_plugin_state: absent
 
 ...

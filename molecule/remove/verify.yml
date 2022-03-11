@@ -1,0 +1,42 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: Verify
+  hosts: ci_group
+
+  vars:
+    restic_repo:
+      '6': '_copr_copart-restic.repo'
+      '7': '_copr_copart-restic.repo'
+      default: '_copr:copr.fedorainfracloud.org:copart:restic.repo'
+
+  tasks:
+
+  - name: verify that copart/restic repo is absent
+    command: ls -1 /etc/yum.repos.d/{{ restic_repo[ansible_distribution_major_version]|default(restic_repo['default']) }}
+    changed_when: false
+    register: _reg_file
+    failed_when: _reg_file.rc == 0
+    when:
+    - ansible_os_family in ['RedHat', 'Rocky']
+    - ansible_distribution != 'Fedora'
+
+  - name: verify that eklitzke/watchman is installed
+    command: ls /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:eklitzke:watchman.repo
+    changed_when: false
+    register: _reg_file
+    failed_when: _reg_file.rc == 0
+    when:
+    - ansible_distribution == 'Fedora'
+
+  - name: get package list
+    package_facts:
+    register: _reg_packages
+
+  - name: verify that copr plugin is absent
+    assert:
+      that:
+        - not _reg_packages.ansible_facts.packages['dnf-plugins-core'] is defined
+        - not _reg_packages.ansible_facts.packages['yum-plugin-copr'] is defined
+
+...

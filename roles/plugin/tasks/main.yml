@@ -12,22 +12,16 @@
   - "{{ ansible_os_family }}.yml"
   - noplugin.yml
   include_vars:
-    file: "{{ item }}"
+    file: "{{ file }}"
+  loop_control:
+    loop_var: file
 
-# note: older RHEL does not have a copr plugin for yum
-# on that machines we did not set the copr_plugin var in the above step
-# see also the vars/ directory
-#
-- block:
+- name: warn
+  debug:
+    msg: No copr plugin? Not doing anything.
+  when: copr_plugin is not defined
 
-  - name: copr plugin is installed
-    package:
-      name: "{{ copr_plugin }}"
-    when: copr_plugin is defined
-
-  - name: warn
-    debug:
-      msg: No copr plugin? Not doing anything.
-    when: copr_plugin is not defined
+- name: include tasks
+  include_tasks: "{{ copr_plugin_state }}.yml"
 
 ...

@@ -24,30 +24,7 @@
   include_vars:
     file: "{{ item }}"
 
-- name: copr plugin is installed
-  include_role:
-    name: mafalb.copr.plugin
-  when: copr_repo_uri is not defined
-
-# either use the installed copr plugin to download
-# or
-# download it directly
-#
-# TODO: should be a custom module
-#
-- block:
-
-  - name: copr repo is enabled (with copr plugin)
-    command: "{{ ansible_pkg_mgr }} -y copr enable {{ repo|mandatory }}"
-    args:
-      creates: /etc/yum.repos.d/{{ repofile }}
-      warn: false
-    when: copr_repo_uri is not defined
-
-  - name: copr repo is enabled (direct download)
-    get_url:
-      url: "{{ copr_repo_uri }}"
-      dest: /etc/yum.repos.d/{{ repofile }}
-    when: copr_repo_uri is defined
+- name: include tasks
+  include_tasks: "{{ copr_repo_state }}.yml"
 
 ...
